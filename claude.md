@@ -9,6 +9,8 @@ Create a web application using Streamlit that displays real-time Air Quality Ind
 ### Additional Functionality
 In addition to the above two main functionalities, you are required to incorporate one **additional feature based on your creative thinking**. This can be anything that enhances the app, such as historical AQI data, visual enhancements, or any other feature that you feel adds value to the application. This part is **open-ended**, so feel free to be creative!
 
+For our advanced feature, we are going to be 
+
 ## Requirements
 
 ### 1. API Integration

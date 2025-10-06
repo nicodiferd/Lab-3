@@ -13,11 +13,14 @@ from streamlit_folium import st_folium
 # Streamlit app display
 st.title("California Cities AQI Map")
 
-# API Key Input
-api_key = st.text_input("Enter your AirNow API Key:", type="password")
+# Load environment variables from .env file
+load_dotenv()
+
+# Get API Key from environment variable
+api_key = os.getenv("AQI_API_KEY")
 
 if not api_key:
-    st.warning("Please enter your AirNow API key to view the AQI data.")
+    st.error("API key not found. Please add AQI_API_KEY to your .env file.")
     st.stop()
 
 # Load the California city names, zip codes, and coordinates from CSV file
