@@ -1,6 +1,7 @@
 requests
-dotenv
+python-dotenv
 streamlit
 pandas
 folium
 streamlit_folium
+plotly
