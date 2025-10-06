@@ -12,6 +12,70 @@ import folium
 from streamlit_folium import st_folium
 import plotly.graph_objects as go
 
+POLLUTANT_DICTIONARY = {
+    "PM2.5": {
+        "label": "PM2.5 (Fine Particles)",
+        "definition": (
+            "Tiny pieces of soot, smoke, or dust that are small enough to travel deep "
+            "into your lungs."
+        ),
+        "example": (
+            "Wildfire smoke or exhaust from diesel trucks releases PM2.5 into the air."
+        ),
+    },
+    "PM10": {
+        "label": "PM10 (Dust Particles)",
+        "definition": (
+            "Slightly larger dust and dirt particles that you can breathe in even though "
+            "you cannot see them."
+        ),
+        "example": (
+            "Construction work, unpaved roads, or windy days on farm fields lift PM10 "
+            "into the air."
+        ),
+    },
+    "O3": {
+        "label": "O3 (Ground-Level Ozone)",
+        "definition": (
+            "A gas that forms near the ground when sunlight reacts with pollution from "
+            "vehicles and factories."
+        ),
+        "example": (
+            "On hot sunny afternoons, car exhaust and industrial fumes react in sunlight "
+            "to create ozone."
+        ),
+    },
+    "NO2": {
+        "label": "NO2 (Nitrogen Dioxide)",
+        "definition": (
+            "A reddish-brown gas made when fuel burns at high temperatures; it can "
+            "irritate your lungs."
+        ),
+        "example": (
+            "Traffic on busy highways and power plants that burn fuel release NO2."
+        ),
+    },
+    "SO2": {
+        "label": "SO2 (Sulfur Dioxide)",
+        "definition": (
+            "A sharp, biting gas produced when fuels that contain sulfur are burned."
+        ),
+        "example": (
+            "Coal-fired power plants and metal smelters release SO2 into the air."
+        ),
+    },
+    "CO": {
+        "label": "CO (Carbon Monoxide)",
+        "definition": (
+            "A colorless, odorless gas formed when fuel does not burn completely."
+        ),
+        "example": (
+            "Idling cars, furnaces, or gas-powered tools in enclosed spaces can build up "
+            "CO."
+        ),
+    },
+}
+
 # Page configuration
 st.set_page_config(page_title="AQI Dashboard", page_icon="🌍", layout="wide")
 
@@ -172,6 +236,28 @@ def create_california_map(aqi_data):
     return m
 
 # ------------------------------------------------------------------
+# Helper Function: Render pollutant dictionary
+# ------------------------------------------------------------------
+def render_pollutant_dictionary(container=None, *, show_header=True):
+    """Display plain-language pollutant definitions and examples."""
+    container = container or st
+
+    if show_header:
+        container.subheader("📘 Pollutant Dictionary")
+
+    container.markdown(
+        "Use this quick dictionary to understand what each pollutant means and how it "
+        "usually gets into the air."
+    )
+
+    for info in POLLUTANT_DICTIONARY.values():
+        container.markdown(
+            f"**{info['label']}**\n"
+            f"Definition: {info['definition']}\n"
+            f"How it gets into the air: {info['example']}\n"
+        )
+
+# ------------------------------------------------------------------
 # Function 4: Display pollutant breakdown (ADDITIONAL FEATURE)
 # ------------------------------------------------------------------
 def display_pollutant_breakdown(aqi_data):
@@ -242,21 +328,8 @@ def display_pollutant_breakdown(aqi_data):
 
     st.plotly_chart(fig, use_container_width=True)
 
-    # Add educational information
-    with st.expander("ℹ️ Learn about pollutants"):
-        st.markdown("""
-        **PM2.5**: Fine particulate matter smaller than 2.5 micrometers. Sources include combustion (vehicles, power plants).
-
-        **PM10**: Particulate matter smaller than 10 micrometers. Sources include dust, pollen, and mold.
-
-        **O3 (Ozone)**: Ground-level ozone formed by chemical reactions between pollutants. Common on hot, sunny days.
-
-        **CO (Carbon Monoxide)**: Colorless, odorless gas from incomplete combustion. Mainly from vehicles.
-
-        **SO2 (Sulfur Dioxide)**: Gas from burning fossil fuels. Main source is power plants.
-
-        **NO2 (Nitrogen Dioxide)**: Gas from burning fuel. Main sources are vehicles and power plants.
-        """)
+    st.markdown("---")
+    render_pollutant_dictionary(show_header=True)
 
 # ------------------------------------------------------------------
 # MAIN APP LAYOUT
