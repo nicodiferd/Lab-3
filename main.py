@@ -80,7 +80,7 @@ POLLUTANT_DICTIONARY = {
 st.set_page_config(page_title="AQI Dashboard", page_icon="🌍", layout="wide")
 
 # Streamlit app display
-st.title("🌍 Real-Time Air Quality Index (AQI) Dashboard")
+st.title("🌎 Real-Time Air Quality Index (AQI) Dashboard")
 st.markdown("Track air quality across California and look up AQI data by ZIP code")
 
 # Load environment variables from .env file
