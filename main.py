@@ -17,7 +17,7 @@ load_dotenv()
 api_key = os.getenv("AIRNOW_API_KEY")
 
 # Load the California city names, zip codes, and coordinates from CSV file
-ca_df = pd.read_csv("CA_Cities.csv")
+ca_df = pd.read_csv("data/california_zip_codes.csv")
 
 # ------------------------------------------------------------------
 # Function 1: Get AQI data for a given location using the AirNow API
