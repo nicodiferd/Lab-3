@@ -136,6 +136,17 @@ def get_aqi_category(aqi):
     else:
         return "Hazardous"
 
+
+def convert_aqi_to_cigarettes(aqi):
+    """Approximate 'cigarettes per day' equivalent for a given AQI."""
+    if aqi is None:
+        return None
+
+    # Rule of thumb: AQI of ~22 for PM2.5 ≈ 1 cigarette per day (Berkeley Earth)
+    conversion_factor = 22
+    cigarettes = max(aqi / conversion_factor, 0)
+    return round(cigarettes, 1)
+
 # ------------------------------------------------------------------
 # Function 1: Get AQI data for a given location using the AirNow API
 # ------------------------------------------------------------------
@@ -430,6 +441,14 @@ with tab2:
                     with col3:
                         st.markdown(f"**Category:** <span style='color: {color}; font-size: 20px;'>{category}</span>", unsafe_allow_html=True)
 
+                    cigarettes_per_day = convert_aqi_to_cigarettes(max_aqi)
+                    if cigarettes_per_day is not None:
+                        st.info(
+                            "Breathing this air is roughly like smoking "
+                            f"{cigarettes_per_day} cigarette(s) per day. "
+                            "This estimate comes from Berkeley Earth's PM2.5 research."
+                        )
+
                     st.markdown("---")
 
                     # Display pollutant breakdown (ADDITIONAL FEATURE)
@@ -462,6 +481,23 @@ This dashboard displays real-time Air Quality Index (AQI) data using the AirNow 
 - 🟣 Very Unhealthy (201-300)
 - 🔴 Hazardous (301+)
 """)
+
+st.sidebar.markdown("---")
+
+st.sidebar.header("🚬 AQI to Cigarette Equivalent")
+aqi_input = st.sidebar.number_input(
+    "Enter AQI value",
+    min_value=0,
+    max_value=500,
+    value=60,
+    step=5,
+    help="Estimate based on Berkeley Earth's PM2.5 research."
+)
+
+cigarette_equivalent = convert_aqi_to_cigarettes(aqi_input)
+st.sidebar.info(
+    f"AQI {aqi_input} ≈ {cigarette_equivalent} cigarette(s) per day."
+)
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("Data provided by [AirNow API](https://www.airnow.gov/)")
