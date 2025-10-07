@@ -1,0 +1,3 @@
+# Additional Feature: Pollutant Breakdown
+
+Our additional feature provides a comprehensive pollutant breakdown that displays individual AQI values for all measured pollutants (PM2.5, PM10, O3, NO2, SO2, and CO) at any location. When a user searches for a ZIP code, the app shows color-coded cards for each pollutant with their specific AQI values and categories, along with an interactive bar chart comparing all pollutants side-by-side. Additionally, we include a pollutant dictionary that provides plain-language definitions and real-world examples of each pollutant, helping users understand what each measurement represents and how these pollutants enter the atmosphere.

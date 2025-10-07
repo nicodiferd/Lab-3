@@ -156,7 +156,7 @@ def get_aqi(zip_code, api_key):
         else:
             return None
     except Exception as e:
-        st.error(f"Error fetching data: {e}")
+        # Return None silently - let the calling function handle display
         return None
 
 # ------------------------------------------------------------------
@@ -349,6 +349,12 @@ with tab1:
 
         # Get AQI data for California cities
         ca_aqi_df = get_california_aqi(ca_df, api_key)
+
+        # Show info about failed cities if any
+        failed_cities = ca_aqi_df[ca_aqi_df['AQI'].isna()]
+        if len(failed_cities) > 0:
+            failed_list = ", ".join(failed_cities['City'].tolist())
+            st.info(f"ℹ️ Could not retrieve data for {len(failed_cities)} city/cities: {failed_list}. This may be due to network timeouts or no nearby monitoring stations.")
 
         # Display summary statistics
         col1, col2, col3, col4 = st.columns(4)
